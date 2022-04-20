@@ -1,0 +1,152 @@
+{
+    "basic_info": {
+        "character_name": "Adam Jensen",
+        "player_name": "Parm"
+    },
+    "name": {
+        "role_name": "The Combat Hacker",
+        "aspects": [
+            "Hacking",
+            "Sense",
+            "Infiltration",
+            "Close Combat"
+        ]
+    },
+    "intimacies": [
+        {
+            "strength": "defining",
+            "description": "Protect the innocent, avoid casualties."
+        },
+        {
+            "strength": "major",
+            "description": "Stay discreet, but take down obstacles."
+        },
+        {
+            "strength": "major",
+            "description": "Russians, especially mobsters (Hate)"
+        },
+        {
+            "strength": "minor",
+            "description": "World politics (Indifference)"
+        },
+        {
+            "strength": "minor",
+            "description": "Guards and armed thugs aren't innocent."
+        }
+    ],
+    "abilities": {
+        "athletics": 4,
+        "awareness": 4,
+        "bureaucracy": 0,
+        "charisma": 0,
+        "close_combat": 5,
+        "craft": 0,
+        "hacking": 7,
+        "investigation": 0,
+        "larceny": 4,
+        "lore": 0,
+        "medicine": 0,
+        "occult": 0,
+        "ranged_combat": 4,
+        "socialize": 0,
+        "stamina": 2,
+        "stealth": 6,
+        "strength": 2,
+        "survival": 0,
+        "travel": 0,
+        "war": 0,
+        "willpower": 5
+    },
+    "attacks": [
+        {
+            "name": "Silenced stun gun",
+            "speed": 5,
+            "damage": 1,
+            "ability": "ranged_combat",
+            "range": "close",
+            "notes": "Non-lethal."
+        },
+        {
+            "name": "Silenced machine gun",
+            "speed": 5,
+            "damage": 1,
+            "ability": "ranged_combat",
+            "notes": ""
+        },
+        {
+            "name": "Cyber-Knife",
+            "speed": 5,
+            "damage": 1,
+            "ability": "close_combat",
+            "notes": ""
+        },
+        {
+            "name": "Unarmed",
+            "speed": 5,
+            "damage": 1,
+            "ability": "close_combat",
+            "notes": ""
+        }
+    ],
+    "backgrounds": [
+        {
+            "type": "connection",
+            "rank": 3,
+            "details": "Yakuza grand-old boss Hiroki Yakimoto"
+        },
+        {
+            "type": "language",
+            "rank": 1,
+            "details": "Japanese"
+        },
+        {
+            "type": "other",
+            "rank": 4,
+            "details": "Cybernetic body: Data storage, hacking, camera, blades etc."
+        }
+    ],
+    "powers": {
+        "hacking": [
+            {
+                "aspect": "Hacking",
+                "name": "Sense electronics",
+                "base_power": "Be aware of all electronics within range.",
+                "level": 1,
+                "amount": 0,
+                "volume": 0,
+                "range": 2,
+                "duration": 2,
+                "time": 0,
+                "mana_discount": 2
+            },
+            {
+                "aspect": "Hacking",
+                "name": "Remote hack",
+                "base_power": "Hack a system within range.",
+                "level": 2,
+                "drawback": "Lose awareness about the real world, -2 on real-world actions.",
+                "amount": 0,
+                "volume": 0,
+                "range": 2,
+                "duration": 1,
+                "time": 0,
+                "mana_discount": 2
+            }
+        ],
+        "stealth": [
+            {
+                "aspect": "Infiltration",
+                "name": "Stealth take-down",
+                "base_power": "Silent take-down of an enemy.",
+                "drawback": "Enemy must be unaware of you.",
+                "level": 1,
+                "amount": 0,
+                "volume": 0,
+                "range": 0,
+                "duration": 0,
+                "time": 0,
+                "mana_discount": 0
+            }
+        ]
+    }
+}
