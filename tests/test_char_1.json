@@ -5,12 +5,13 @@
     },
     "name_info": {
         "role_name": "The Combat Hacker",
+        "defining_aspect": "Hacking",
         "aspects": [
-            "Hacking",
             "Sense",
             "Infiltration",
             "Close Combat"
-        ]
+        ],
+        "xp": 150
     },
     "intimacies": [
         {
