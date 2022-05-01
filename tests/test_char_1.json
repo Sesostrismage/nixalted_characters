@@ -4,14 +4,14 @@
         "player_name": "Parm"
     },
     "name_info": {
-        "role_name": "The Combat Hacker",
+        "name": "The Combat Hacker",
         "defining_aspect": "Hacking",
         "aspects": [
             "Sense",
             "Infiltration",
             "Close Combat"
         ],
-        "xp": 150
+        "xp_earned": 150
     },
     "intimacies": [
         {
