@@ -113,6 +113,7 @@
                 "name": "Sense electronics",
                 "base_power": "Be aware of all electronics within range.",
                 "level": 1,
+                "drawback": null,
                 "amount": 0,
                 "volume": 0,
                 "range": 2,

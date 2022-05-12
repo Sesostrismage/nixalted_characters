@@ -14,6 +14,7 @@ class Character:
         self.basic_info = BasicInfo(char_dict["basic_info"])
         self.name = Name(char_dict["name_info"])
         self.intimacies = Intimacies(char_dict["intimacies"])
+        self.backgrounds = Backgrounds(char_dict["backgrounds"])
         self.abilities = Abilities(char_dict["abilities"])
 
 
@@ -87,8 +88,41 @@ class Intimacies:
 
         self.__intimacy_list += {"strength": strength, "description": description}
 
+    def edit_intimacy(self, idx: int, description: str, strength: str):
+        strength_list = ["minor", "major", "defining"]
+
+        if strength not in strength_list:
+            raise KeyError(f"Strenght must be one of {strength_list}, got {strength}.")
+
+        self.__intimacy_list[idx] = {"strength": strength, "description": description}
+
     def remove_intimacy(self, idx):
         self.__intimacy_list.pop(idx)
+
+
+class Backgrounds:
+    def __init__(self, backgrounds_list: list) -> None:
+        self.__backgrounds_list = backgrounds_list
+
+    def get_backgrounds(self):
+        return copy.deepcopy(self.__backgrounds_list)
+
+    def add_background(self, background_type: str, rank: int, details: str):
+        self.__backgrounds_list += {
+            "background_type": background_type,
+            "rank": rank,
+            "details": details,
+        }
+
+    def edit_background(self, idx: int, background_type: str, rank: int, details: str):
+        self.__backgrounds_list[idx] = {
+            "background_type": background_type,
+            "rank": rank,
+            "details": details,
+        }
+
+    def remove_background(self, idx):
+        self.__backgrounds_list.pop(idx)
 
 
 class Abilities:
@@ -102,11 +136,11 @@ class Abilities:
         return self.__abilities_dict[ability_name]
 
     def set_ability_score(self, ability_name, score):
-        self.__check_ability_name(ability_name)
+        check_ability_name(ability_name)
         self.__abilities_dict[ability_name] = score
 
     def calc_xp_ability_single(self, ability_name: str):
-        self.__check_ability_name(ability_name)
+        check_ability_name(ability_name)
         score = self.get_ability_score(ability_name)
         xp = int(score * (score + 1) / 2)
         return xp
@@ -119,9 +153,10 @@ class Abilities:
 
         return xp
 
-    def __check_ability_name(self, ability_name: str):
-        if ability_name not in new_char_dict["abilities"].keys():
-            raise KeyError(f"{ability_name} is not a valid Ability name.")
+
+def check_ability_name(ability_name: str):
+    if ability_name not in new_char_dict["abilities"].keys():
+        raise KeyError(f"{ability_name} is not a valid Ability name.")
 
 
 legend_levels = {1: 100, 2: 150, 3: 250, 4: 500, 5: 1000}
