@@ -10,9 +10,9 @@
             "Sense",
             "Infiltration",
             "Close Combat"
-        ],
-        "xp_earned": 150
+        ]
     },
+    "xp_earned": 150,
     "intimacies": [
         {
             "strength": "defining",
@@ -126,7 +126,7 @@
                 "name": "Remote hack",
                 "base_power": "Hack a system within range.",
                 "level": 2,
-                "drawback": "Lose awareness about the real world, -2 on real-world actions.",
+                "drawback": "Lose awareness about the real world: -2 on real-world actions.",
                 "amount": 0,
                 "volume": 0,
                 "range": 2,

@@ -13,57 +13,77 @@ class Character:
 
         self.basic_info = BasicInfo(char_dict["basic_info"])
         self.name = Name(char_dict["name_info"])
+        self._xp_earned = char_dict["xp_earned"]
         self.intimacies = Intimacies(char_dict["intimacies"])
         self.backgrounds = Backgrounds(char_dict["backgrounds"])
         self.abilities = Abilities(char_dict["abilities"])
+        self.powers = Powers(char_dict["powers"])
+
+    def get_xp_earned(self):
+        return copy.deepcopy(self._xp_earned)
+
+    def set_xp_earned(self, xp: int):
+        self._xp_earned = xp
+
+    def get_legend_level(self):
+        xp_earned = self.get_xp_earned()
+        legend_level = 0
+
+        for level in sorted(legend_levels.keys()):
+            if xp_earned >= legend_levels[level]:
+                legend_level = level
+            else:
+                break
+
+        return legend_level
 
 
 class BasicInfo:
     def __init__(self, basic_info_dict: dict) -> None:
-        self.__basic_info_dict = basic_info_dict
+        self._basic_info_dict = basic_info_dict
 
     def get_basic_info(self):
-        return copy.deepcopy(self.__basic_info_dict)
+        return copy.deepcopy(self._basic_info_dict)
 
     def set_character_name(self, char_name):
-        self.__basic_info_dict["character_name"] = char_name
+        self._basic_info_dict["character_name"] = char_name
 
     def set_player_name(self, char_name):
-        self.__basic_info_dict["player_name"] = char_name
+        self._basic_info_dict["player_name"] = char_name
 
 
 class Name:
     def __init__(self, name_dict: dict) -> None:
-        self.__name_dict = name_dict
+        self._name_dict = name_dict
 
     def get_name_info(self):
-        return copy.deepcopy(self.__name_dict)
+        return copy.deepcopy(self._name_dict)
 
     def set_name(self, name: str):
-        self.__name_dict["name"] = name
+        self._name_dict["name"] = name
 
     def set_defining_aspect(self, aspect):
-        if aspect in self.__name_dict["aspects"]:
+        if aspect in self._name_dict["aspects"]:
             self.remove_aspect(aspect)
 
-        self.__name_dict["defining_aspect"] = aspect
+        self._name_dict["defining_aspect"] = aspect
 
     def add_aspect(self, aspect):
-        if self.__name_dict["defining_aspect"] == aspect:
+        if self._name_dict["defining_aspect"] == aspect:
             raise KeyError(
                 f"{aspect} is already a defining aspect. Set another defining aspect first."
             )
 
-        self.__name_dict["aspects"] += aspect
+        self._name_dict["aspects"] += aspect
 
     def remove_aspect(self, aspect):
-        self.__name_dict["aspects"].pop(aspect)
+        self._name_dict["aspects"].pop(aspect)
 
     def get_xp_earned(self) -> int:
-        return copy.deepcopy(self.__name_dict["xp_earned"])
+        return copy.deepcopy(self._name_dict["xp_earned"])
 
     def set_xp_earned(self, xp: int):
-        self.__name_dict["xp_earned"] = xp
+        self._name_dict["xp_earned"] = xp
 
     def calc_legend(self) -> int:
         for legend_level in sorted(legend_levels.keys()):
@@ -75,10 +95,10 @@ class Name:
 
 class Intimacies:
     def __init__(self, intimacy_list: list) -> None:
-        self.__intimacy_list = intimacy_list
+        self._intimacy_list = intimacy_list
 
     def get_intimacies(self):
-        return copy.deepcopy(self.__intimacy_list)
+        return copy.deepcopy(self._intimacy_list)
 
     def add_intimacy(self, description: str, strength: str):
         strength_list = ["minor", "major", "defining"]
@@ -86,7 +106,7 @@ class Intimacies:
         if strength not in strength_list:
             raise KeyError(f"Strenght must be one of {strength_list}, got {strength}.")
 
-        self.__intimacy_list += {"strength": strength, "description": description}
+        self._intimacy_list += {"strength": strength, "description": description}
 
     def edit_intimacy(self, idx: int, description: str, strength: str):
         strength_list = ["minor", "major", "defining"]
@@ -94,50 +114,25 @@ class Intimacies:
         if strength not in strength_list:
             raise KeyError(f"Strenght must be one of {strength_list}, got {strength}.")
 
-        self.__intimacy_list[idx] = {"strength": strength, "description": description}
+        self._intimacy_list[idx] = {"strength": strength, "description": description}
 
     def remove_intimacy(self, idx):
-        self.__intimacy_list.pop(idx)
-
-
-class Backgrounds:
-    def __init__(self, backgrounds_list: list) -> None:
-        self.__backgrounds_list = backgrounds_list
-
-    def get_backgrounds(self):
-        return copy.deepcopy(self.__backgrounds_list)
-
-    def add_background(self, background_type: str, rank: int, details: str):
-        self.__backgrounds_list += {
-            "background_type": background_type,
-            "rank": rank,
-            "details": details,
-        }
-
-    def edit_background(self, idx: int, background_type: str, rank: int, details: str):
-        self.__backgrounds_list[idx] = {
-            "background_type": background_type,
-            "rank": rank,
-            "details": details,
-        }
-
-    def remove_background(self, idx):
-        self.__backgrounds_list.pop(idx)
+        self._intimacy_list.pop(idx)
 
 
 class Abilities:
     def __init__(self, abilities_dict: dict) -> None:
-        self.__abilities_dict = abilities_dict
+        self._abilities_dict = abilities_dict
 
     def get_ability_names(self) -> list:
-        return sorted(list(self.__abilities_dict.keys()))
+        return sorted(list(self._abilities_dict.keys()))
 
     def get_ability_score(self, ability_name) -> int:
-        return self.__abilities_dict[ability_name]
+        return self._abilities_dict[ability_name]
 
     def set_ability_score(self, ability_name, score):
         check_ability_name(ability_name)
-        self.__abilities_dict[ability_name] = score
+        self._abilities_dict[ability_name] = score
 
     def calc_xp_ability_single(self, ability_name: str):
         check_ability_name(ability_name)
@@ -152,6 +147,53 @@ class Abilities:
             xp += self.calc_xp_ability_single(ability_name)
 
         return xp
+
+
+class Backgrounds:
+    def __init__(self, backgrounds_list: list) -> None:
+        self._backgrounds_list = backgrounds_list
+
+    def get_backgrounds(self):
+        return copy.deepcopy(self._backgrounds_list)
+
+    def add_background(self, background_type: str, rank: int, details: str):
+        self._backgrounds_list += {
+            "background_type": background_type,
+            "rank": rank,
+            "details": details,
+        }
+
+    def edit_background(self, idx: int, background_type: str, rank: int, details: str):
+        self._backgrounds_list[idx] = {
+            "background_type": background_type,
+            "rank": rank,
+            "details": details,
+        }
+
+    def remove_background(self, idx):
+        self._backgrounds_list.pop(idx)
+
+
+class Powers:
+    def __init__(self, powers_dict: dict) -> None:
+        self._powers_dict = powers_dict
+
+    def add_power(
+        self,
+        ability_name: str,
+        aspect: str,
+        name: str,
+        base_power: str,
+        level: int,
+        drawback: str = None,
+        amount: int = 0,
+        volume: int = 0,
+        range: int = 0,
+        duration: int = 0,
+        time: int = 0,
+        mana_discount: int = 0,
+    ):
+        check_ability_name(ability_name)
 
 
 def check_ability_name(ability_name: str):
