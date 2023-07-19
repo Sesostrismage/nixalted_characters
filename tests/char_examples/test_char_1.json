@@ -1,7 +1,8 @@
 {
     "basic_info": {
         "character_name": "Adam Jensen",
-        "player_name": "Parm"
+        "player_name": "Parm",
+        "xp_earned": 150
     },
     "name_info": {
         "name": "The Combat Hacker",
@@ -12,7 +13,6 @@
             "Close Combat"
         ]
     },
-    "xp_earned": 150,
     "intimacies": [
         {
             "strength": "defining",

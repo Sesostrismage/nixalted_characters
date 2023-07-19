@@ -3,6 +3,8 @@ import json
 
 from pathlib import Path
 
+# TODO Add checks for valid input.
+
 
 class Character:
     def __init__(self, load_path: Path = None) -> None:
@@ -100,24 +102,25 @@ class Name:
 
 class Intimacies:
     def __init__(self, intimacy_list: list) -> None:
+        self._strength_list = ["minor", "major", "defining"]
         self._intimacy_list = intimacy_list
 
     def get_intimacies(self):
         return copy.deepcopy(self._intimacy_list)
 
     def add_intimacy(self, description: str, strength: str):
-        strength_list = ["minor", "major", "defining"]
-
-        if strength not in strength_list:
-            raise KeyError(f"Strenght must be one of {strength_list}, got {strength}.")
+        if strength not in self._strength_list:
+            raise KeyError(
+                f"Strenght must be one of {self._strength_list}, got {strength}."
+            )
 
         self._intimacy_list += {"strength": strength, "description": description}
 
     def edit_intimacy(self, idx: int, description: str, strength: str):
-        strength_list = ["minor", "major", "defining"]
-
-        if strength not in strength_list:
-            raise KeyError(f"Strenght must be one of {strength_list}, got {strength}.")
+        if strength not in self._strength_list:
+            raise KeyError(
+                f"Strenght must be one of {self._strength_list}, got {strength}."
+            )
 
         self._intimacy_list[idx] = {"strength": strength, "description": description}
 
@@ -214,12 +217,15 @@ def load_char_dict(load_path: Path) -> dict:
 
 
 new_char_dict = {
-    "basic_info": {"character_name": "", "player_name": ""},
+    "basic_info": {
+        "character_name": "",
+        "player_name": "",
+        "xp_earned": 0,
+    },
     "name_info": {
         "name": "",
         "defining_aspect": "",
         "aspects": [],
-        "xp_earned": 0,
     },
     "intimacies": [],
     "abilities": {
