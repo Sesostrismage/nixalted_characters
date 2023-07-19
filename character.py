@@ -1,15 +1,16 @@
 import copy
 import json
 
+from pathlib import Path
+
 
 class Character:
-    def __init__(self, load_path: str = None) -> None:
+    def __init__(self, load_path: Path = None) -> None:
         if load_path is None:
             char_dict = copy.deepcopy(new_char_dict)
 
         else:
-            with open(load_path, "r") as f:
-                char_dict = json.load(f)
+            char_dict = load_char_dict(load_path)
 
         self.basic_info = BasicInfo(char_dict["basic_info"])
         self.name = Name(char_dict["name_info"])
@@ -19,7 +20,7 @@ class Character:
         self.abilities = Abilities(char_dict["abilities"])
         self.powers = Powers(char_dict["powers"])
 
-    def get_xp_earned(self):
+    def get_xp_earned(self) -> int:
         return copy.deepcopy(self._xp_earned)
 
     def set_xp_earned(self, xp: int):
@@ -27,11 +28,13 @@ class Character:
 
     def get_legend_level(self):
         xp_earned = self.get_xp_earned()
-        legend_level = 0
+        legend_thresholds = [100, 150, 250, 500, 1000]
+        legend_level = 1
 
-        for level in sorted(legend_levels.keys()):
-            if xp_earned >= legend_levels[level]:
-                legend_level = level
+        # Find the highest legend level that the character has reached.
+        for threshold in legend_thresholds:
+            if xp_earned >= threshold:
+                legend_level += 1
             else:
                 break
 
@@ -48,8 +51,14 @@ class BasicInfo:
     def set_character_name(self, char_name):
         self._basic_info_dict["character_name"] = char_name
 
-    def set_player_name(self, char_name):
-        self._basic_info_dict["player_name"] = char_name
+    def get_character_name(self):
+        return copy.deepcopy(self._basic_info_dict["character_name"])
+
+    def set_player_name(self, player_name):
+        self._basic_info_dict["player_name"] = player_name
+
+    def get_player_name(self):
+        return copy.deepcopy(self._basic_info_dict["player_name"])
 
 
 class Name:
@@ -78,19 +87,6 @@ class Name:
 
     def remove_aspect(self, aspect):
         self._name_dict["aspects"].pop(aspect)
-
-    def get_xp_earned(self) -> int:
-        return copy.deepcopy(self._name_dict["xp_earned"])
-
-    def set_xp_earned(self, xp: int):
-        self._name_dict["xp_earned"] = xp
-
-    def calc_legend(self) -> int:
-        for legend_level in sorted(legend_levels.keys()):
-            if self.get_xp_earned() < legend_levels[legend_level]:
-                break
-
-        return legend_level - 1
 
 
 class Intimacies:
@@ -201,7 +197,12 @@ def check_ability_name(ability_name: str):
         raise KeyError(f"{ability_name} is not a valid Ability name.")
 
 
-legend_levels = {1: 100, 2: 150, 3: 250, 4: 500, 5: 1000}
+def load_char_dict(load_path: Path) -> dict:
+    with open(load_path, "r") as f:
+        char_dict = json.load(f)
+
+    return char_dict
+
 
 new_char_dict = {
     "basic_info": {"character_name": "", "player_name": ""},
