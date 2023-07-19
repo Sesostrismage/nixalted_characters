@@ -217,10 +217,10 @@ def load_char_dict(load_path: Path) -> dict:
 
 
 new_char_dict = {
+    "xp_earned": 0,
     "basic_info": {
         "character_name": "",
         "player_name": "",
-        "xp_earned": 0,
     },
     "name_info": {
         "name": "",

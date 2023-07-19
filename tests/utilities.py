@@ -5,11 +5,3 @@ def get_test_char_path(char_num: int) -> Path:
     base_dir = Path(__file__).parent
     char_dir = base_dir / "char_examples"
     return char_dir / f"test_char_{char_num}.json"
-
-
-def get_basic_info_dict() -> dict:
-    d = {
-        "character_name": "Test Character",
-        "player_name": "Test Player",
-    }
-    return d

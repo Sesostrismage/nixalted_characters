@@ -1,8 +1,8 @@
 {
+    "xp_earned": 150,
     "basic_info": {
         "character_name": "Adam Jensen",
-        "player_name": "Parm",
-        "xp_earned": 150
+        "player_name": "Parm"
     },
     "name_info": {
         "name": "The Combat Hacker",
