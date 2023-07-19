@@ -210,7 +210,7 @@ new_char_dict = {
         "name": "",
         "defining_aspect": "",
         "aspects": [],
-        "xp_earned": 150,
+        "xp_earned": 0,
     },
     "intimacies": [],
     "abilities": {
