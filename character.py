@@ -65,11 +65,14 @@ class Name:
     def __init__(self, name_dict: dict) -> None:
         self._name_dict = name_dict
 
-    def get_name_info(self):
-        return copy.deepcopy(self._name_dict)
+    def get_name(self):
+        return copy.deepcopy(self._name_dict["name"])
 
     def set_name(self, name: str):
         self._name_dict["name"] = name
+
+    def get_defining_aspect(self):
+        return copy.deepcopy(self._name_dict["defining_aspect"])
 
     def set_defining_aspect(self, aspect):
         if aspect in self._name_dict["aspects"]:
@@ -77,16 +80,22 @@ class Name:
 
         self._name_dict["defining_aspect"] = aspect
 
+    def get_aspects(self):
+        return copy.deepcopy(self._name_dict["aspects"])
+
     def add_aspect(self, aspect):
         if self._name_dict["defining_aspect"] == aspect:
             raise KeyError(
                 f"{aspect} is already a defining aspect. Set another defining aspect first."
             )
 
-        self._name_dict["aspects"] += aspect
+        if aspect in self._name_dict["aspects"]:
+            raise KeyError(f"{aspect} is already an aspect.")
+
+        self._name_dict["aspects"].append(aspect)
 
     def remove_aspect(self, aspect):
-        self._name_dict["aspects"].pop(aspect)
+        self._name_dict["aspects"].remove(aspect)
 
 
 class Intimacies:
