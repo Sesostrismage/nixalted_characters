@@ -108,24 +108,33 @@ class Intimacies:
     def get_intimacies(self):
         return copy.deepcopy(self._intimacy_list)
 
-    def add_intimacy(self, description: str, strength: str):
-        if strength not in self._strength_list:
-            raise KeyError(
-                f"Strenght must be one of {self._strength_list}, got {strength}."
-            )
+    def add_intimacy(self, strength: str, description: str):
+        self._check_strength(strength)
+        self._intimacy_list.append({"strength": strength, "description": description})
 
-        self._intimacy_list += {"strength": strength, "description": description}
+    def get_intimacy_idx(self, strength: str, description: str):
+        self._check_strength(strength)
+        for idx, intimacy in enumerate(self._intimacy_list):
+            if (
+                intimacy["strength"] == strength
+                and intimacy["description"] == description
+            ):
+                return idx
 
-    def edit_intimacy(self, idx: int, description: str, strength: str):
-        if strength not in self._strength_list:
-            raise KeyError(
-                f"Strenght must be one of {self._strength_list}, got {strength}."
-            )
+        raise KeyError(f"Intimacy ({strength}): '{description}' not found.")
 
+    def edit_intimacy(self, idx: int, strength: str, description: str):
+        self._check_strength(strength)
         self._intimacy_list[idx] = {"strength": strength, "description": description}
 
     def remove_intimacy(self, idx):
         self._intimacy_list.pop(idx)
+
+    def _check_strength(self, strength: str):
+        if strength not in self._strength_list:
+            raise KeyError(
+                f"Intimacy strength must be one of {self._strength_list}, got {strength}."
+            )
 
 
 class Abilities:
