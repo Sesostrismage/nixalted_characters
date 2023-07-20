@@ -100,6 +100,35 @@ class Name:
         self._name_dict["aspects"].remove(aspect)
 
 
+class Abilities:
+    def __init__(self, abilities_dict: dict) -> None:
+        self._abilities_dict = abilities_dict
+
+    def get_ability_names(self) -> list:
+        return sorted(list(self._abilities_dict.keys()))
+
+    def get_ability_score(self, ability_name) -> int:
+        return self._abilities_dict[ability_name]
+
+    def set_ability_score(self, ability_name, score):
+        check_ability_name(ability_name)
+        self._abilities_dict[ability_name] = score
+
+    def calc_xp_ability_single(self, ability_name: str):
+        check_ability_name(ability_name)
+        score = self.get_ability_score(ability_name)
+        xp = int(score * (score + 1) / 2)
+        return xp
+
+    def calc_xp_abilities_all(self):
+        xp = 0
+
+        for ability_name in self.get_ability_names():
+            xp += self.calc_xp_ability_single(ability_name)
+
+        return xp
+
+
 class Intimacies:
     def __init__(self, intimacy_list: list) -> None:
         self._strength_list = ["minor", "major", "defining"]
@@ -137,50 +166,38 @@ class Intimacies:
             )
 
 
-class Abilities:
-    def __init__(self, abilities_dict: dict) -> None:
-        self._abilities_dict = abilities_dict
-
-    def get_ability_names(self) -> list:
-        return sorted(list(self._abilities_dict.keys()))
-
-    def get_ability_score(self, ability_name) -> int:
-        return self._abilities_dict[ability_name]
-
-    def set_ability_score(self, ability_name, score):
-        check_ability_name(ability_name)
-        self._abilities_dict[ability_name] = score
-
-    def calc_xp_ability_single(self, ability_name: str):
-        check_ability_name(ability_name)
-        score = self.get_ability_score(ability_name)
-        xp = int(score * (score + 1) / 2)
-        return xp
-
-    def calc_xp_abilities_all(self):
-        xp = 0
-
-        for ability_name in self.get_ability_names():
-            xp += self.calc_xp_ability_single(ability_name)
-
-        return xp
-
-
 class Backgrounds:
     def __init__(self, backgrounds_list: list) -> None:
+        self._ranks_allowed = [1, 2, 3, 4, 5]
+        self._types_allowed = [
+            "ally",
+            "arsenal",
+            "backing",
+            "contact",
+            "followers",
+            "influence",
+            "mentor",
+            "resources",
+        ]
         self._backgrounds_list = backgrounds_list
 
     def get_backgrounds(self):
         return copy.deepcopy(self._backgrounds_list)
 
     def add_background(self, background_type: str, rank: int, details: str):
-        self._backgrounds_list += {
-            "background_type": background_type,
-            "rank": rank,
-            "details": details,
-        }
+        self._check_type(background_type)
+        self._check_rank(rank)
+        self._backgrounds_list.append(
+            {
+                "background_type": background_type,
+                "rank": rank,
+                "details": details,
+            }
+        )
 
     def edit_background(self, idx: int, background_type: str, rank: int, details: str):
+        self._check_type(background_type)
+        self._check_rank(rank)
         self._backgrounds_list[idx] = {
             "background_type": background_type,
             "rank": rank,
@@ -189,6 +206,19 @@ class Backgrounds:
 
     def remove_background(self, idx):
         self._backgrounds_list.pop(idx)
+
+    def _check_rank(self, rank: int):
+        if rank not in self._ranks_allowed:
+            raise KeyError(
+                f"Background rank must be one of {self._ranks_allowed}, got {rank}."
+            )
+
+    def _check_type(self, background_type: str):
+        if background_type not in self._types_allowed:
+            raise KeyError(
+                f"Background type must be one of {self._types_allowed}, "
+                f"got {background_type}."
+            )
 
 
 class Powers:

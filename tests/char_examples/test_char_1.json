@@ -91,17 +91,12 @@
     ],
     "backgrounds": [
         {
-            "type": "connection",
+            "type": "ally",
             "rank": 3,
             "details": "Yakuza grand-old boss Hiroki Yakimoto"
         },
         {
-            "type": "language",
-            "rank": 1,
-            "details": "Japanese"
-        },
-        {
-            "type": "other",
+            "type": "arsenal",
             "rank": 4,
             "details": "Cybernetic body: Data storage, hacking, camera, blades etc."
         }
